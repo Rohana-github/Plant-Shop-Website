@@ -31,10 +31,7 @@ const defaultCart = [
 const Cart = () => {
   const shippingCharge = 50;
 
-  const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem("plantifyCart");
-    return savedCart ? JSON.parse(savedCart) : defaultCart;
-  });
+  const [cart, setCart] = useState(defaultCart);
 
   useEffect(() => {
     localStorage.setItem("plantifyCart", JSON.stringify(cart));
@@ -106,9 +103,7 @@ const Cart = () => {
                     <div className="flex-1">
                       <h3 className="text-xl font-medium">{item.name}</h3>
 
-                      <p className="text-gray-500 mt-1">
-                        ৳{item.price}
-                      </p>
+                      <p className="text-gray-500 mt-1">৳{item.price}</p>
 
                       <div className="flex items-center gap-3 mt-5">
                         <button
