@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+
 const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-[#005746] flex items-center justify-center px-6">
@@ -43,13 +44,12 @@ const AdminLogin = () => {
               Forgot?
             </Link>
           </div>
-
-          <button
-            type="submit"
-            className="w-full h-12 bg-white text-[#005746] font-medium hover:bg-[#eefaf7] duration-300"
-          >
-            Login as Admin
-          </button>
+<Link
+  to="/admin/dashboard"
+  className="block text-center w-full h-12 bg-white text-[#005746] font-medium hover:bg-[#eefaf7] duration-300 leading-[48px]"
+>
+  Login as Admin
+</Link>
 
           <p className="text-center text-sm text-white/70 mt-6">
             Don’t have an account?{" "}
