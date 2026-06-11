@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Plantify</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+  </style>
+</head>
+
+
+<body class="bg-[#005746]">
+
+  <section class="min-h-screen bg-[#005746] text-white overflow-x-hidden">
+
+    <div id="navbar"></div>
+
+    <!-- HERO -->
+   <main class="min-h-screen pt-[70px] px-6 md:px-12 lg:px-24 py-8 lg:py-0 grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-14">
+      <!-- LEFT CONTENT -->
+      <div class="text-center lg:text-left">
+        <h1 class="font-light tracking-[5px] leading-[1.15]
+                   text-[38px] sm:text-[48px] md:text-[58px] lg:text-[62px] xl:text-[68px]">
+          Happiness <br />
+          blooms from <br />
+          within
+        </h1>
+
+        <p class="mt-6 md:mt-8 text-white/75 text-sm md:text-[15px] leading-7 max-w-md mx-auto lg:mx-0">
+          Our environment, the world in which we live and work,
+          is a mirror of our attitudes and expectations.
+        </p>
+
+        <div class="mt-7 md:mt-9 flex items-center justify-center lg:justify-start gap-6 md:gap-10">
+          <button class="bg-white text-[#005746] px-8 md:px-10 py-3.5 md:py-4 text-sm font-medium hover:scale-105 duration-300">
+            Shop now
+          </button>
+
+          <button class="text-sm text-white/85 hover:translate-x-2 duration-300">
+            Explore plants →
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT CARDS -->
+      <div class="relative flex justify-center lg:justify-end">
+
+        <div class="hidden md:grid absolute -bottom-6 left-6 lg:left-0 grid-cols-8 gap-2 z-0">
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+          <span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span><span class="w-1 h-1 bg-white/80 rounded-full"></span>
+        </div>
+
+        <div class="relative z-10 grid grid-cols-[145px_240px] sm:grid-cols-[180px_300px] md:grid-cols-[200px_340px]
+                    grid-rows-[180px_180px] sm:grid-rows-[210px_210px] md:grid-rows-[235px_235px] gap-1 max-w-full">
+
+          <!-- Top Card -->
+          <div class="relative bg-[#eef2ff] overflow-hidden">
+            <span class="absolute top-3 left-3 bg-[#005746] px-4 py-1.5 text-[10px] z-10">
+              New
+            </span>
+
+            <img
+              src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=600"
+              class="w-full h-full object-cover"
+              alt="Plant"
+            />
+          </div>
+
+          <!-- Big Card -->
+          <div class="relative row-span-2 bg-[#eef2ff] overflow-hidden">
+            <span class="absolute top-3 left-4 bg-[#005746] px-5 py-1.5 text-[10px] z-20">
+              Featured
+            </span>
+
+            <img
+              src="https://images.unsplash.com/photo-1520763185298-1b434c919102?q=80&w=900"
+              class="w-full h-full object-cover"
+              alt="Flower"
+            />
+
+            <div class="absolute bottom-0 left-0 w-full px-5 md:px-7 pb-5 pt-24 bg-gradient-to-t from-black/60 to-transparent">
+              <h2 class="text-xl md:text-3xl font-light">
+                Anthurium Flower
+              </h2>
+
+              <p class="text-[11px] md:text-sm text-white/75 mt-2 leading-5">
+                The flower of human being. It has meaningful of fact that the plant always grow whatever season and weather.
+              </p>
+
+              <button class="mt-5 bg-white text-[#005746] w-full py-3 md:py-4 text-[10px] tracking-[5px] font-medium">
+                READ MORE
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Card -->
+          <div class="relative bg-[#eef2ff] overflow-hidden">
+            <span class="absolute top-3 left-3 bg-[#005746] px-4 py-1.5 text-[10px] z-10">
+              Popular
+            </span>
+
+            <img
+              src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?q=80&w=600"
+              class="w-full h-full object-cover"
+              alt="Cactus"
+            />
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- FEATURED PRODUCTS SECTION -->
+<section id="shop-now"
+class="scroll-mt-[80px] bg-[#f8faf9] text-[#005746] px-6 md:px-12 lg:px-24 py-16 overflow-hidden">
+
+  <!-- Heading -->
+  <div class="flex items-center justify-between mb-10">
+    <h2 class="text-3xl md:text-4xl font-medium tracking-wide">
+      Shop Now
+    </h2>
+
+   <button id="viewAllBtn" class="text-[#005746] text-lg hover:underline">
+  view all
+</button>
+  </div>
+
+  <!-- Product Slider Wrapper -->
+  <div class="relative">
+
+    <!-- Products Row -->
+    <div id="shopSlider"
+     class="flex gap-8 overflow-x-auto scroll-smooth pb-6
+            [scrollbar-width:none]
+            [-ms-overflow-style:none]
+            [&::-webkit-scrollbar]:hidden">
+
+     <!-- Product 1 -->
+<div class="min-w-[230px]">
+
+  <div class="h-[305px] bg-[#e8e8e8] overflow-hidden">
+    <img
+      src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=500"
+      class="w-full h-full object-cover"
+      alt="Peperomia Ginny"
+    />
+  </div>
+
+  <div class="flex justify-between items-center mt-4">
+    <h3 class="text-lg">Peperomia Ginny</h3>
+    <p class="text-lg">250 BDT</p>
+  </div>
+
+  <p class="text-gray-400 text-sm mt-4">
+    Pot color
+  </p>
+
+  <div class="flex justify-between items-center mt-2">
+
+    <div class="flex gap-2">
+      <span class="w-3 h-3 bg-[#2f2f2f] rounded-full"></span>
+      <span class="w-3 h-3 bg-[#e6b3a0] rounded-full"></span>
+      <span class="w-3 h-3 bg-[#c77f62] rounded-full"></span>
+    </div>
+
+    <button
+      class="add-to-cart border border-[#005746]
+      text-[#005746] px-6 py-2 text-sm
+      hover:bg-[#005746]
+      hover:text-white duration-300"
+
+      data-id="1"
+      data-name="Peperomia Ginny"
+      data-price="250"
+      data-image="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=500">
+
+      Buy
+    </button>
+
+  </div>
+</div>
+
+      <!-- Product 2 -->
+      <div class="min-w-[230px]">
+        <div class="h-[305px] bg-[#e8e8e8] overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=800"
+        class="w-full h-full object-cover"
+        alt="Bird’s Nest Fern"
+      />
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <h3 class="text-lg">Bird’s Nest Fern</h3>
+          <p class="text-lg">450 BDT</p>
+        </div>
+
+        <p class="text-gray-400 text-sm mt-4">Pot color</p>
+
+        <div class="flex justify-between items-center mt-2">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 bg-[#2f2f2f] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#e6b3a0] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#d9c7bb] rounded-full"></span>
+          </div>
+
+          <button
+  class="add-to-cart border border-[#005746]
+  text-[#005746] px-6 py-2 text-sm
+  hover:bg-[#005746]
+  hover:text-white duration-300"
+
+  data-id="2"
+  data-name="Bird’s Nest Fern"
+  data-price="450"
+  data-image="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=800">
+
+  Buy
+</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="min-w-[230px]">
+        <div class="h-[305px] bg-[#e8e8e8] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1598880940080-ff9a29891b85?q=80&w=500"
+            class="w-full h-full object-cover"
+            alt="Large Majesty Palm"
+          />
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <h3 class="text-lg">Large Majesty Palm</h3>
+          <p class="text-lg">525 BDT</p>
+        </div>
+
+        <p class="text-gray-400 text-sm mt-4">Pot color</p>
+
+        <div class="flex justify-between items-center mt-2">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 bg-[#2f2f2f] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#e6b3a0] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#c77f62] rounded-full"></span>
+          </div>
+          <button
+  class="add-to-cart border border-[#005746]
+  text-[#005746] px-6 py-2 text-sm
+  hover:bg-[#005746]
+  hover:text-white duration-300"
+
+  data-id="3"
+  data-name="Large Majesty Palm"
+  data-price="520"
+  data-image="https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=600">
+
+  Buy
+</button>
+           </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="min-w-[230px]">
+        <div class="h-[305px] bg-[#e8e8e8] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=500"
+            class="w-full h-full object-cover"
+            alt="Pet Friendly Plant"
+          />
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <h3 class="text-lg">Pet Friendly Plant</h3>
+          <p class="text-lg">380 BDT</p>
+        </div>
+
+        <p class="text-gray-400 text-sm mt-4">Pot color</p>
+
+        <div class="flex justify-between items-center mt-2">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 bg-[#2f2f2f] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#e6b3a0] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#d9c7bb] rounded-full"></span>
+          </div>
+
+          <button
+  class="add-to-cart border border-[#005746]
+  text-[#005746] px-6 py-2 text-sm
+  hover:bg-[#005746]
+  hover:text-white duration-300"
+
+  data-id="4"
+  data-name="Pet Friendly Plant"
+  data-price="300"
+  data-image="https://images.unsplash.com/photo-1598880940080-ff9a29891b85?q=80&w=500">
+
+  Buy
+</button>
+          
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="min-w-[230px]">
+        <div class="h-[305px] bg-[#e8e8e8] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?q=80&w=500"
+            class="w-full h-full object-cover"
+            alt="Duo Friendly Plant"
+          />
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <h3 class="text-lg">Duo Friendly Plant</h3>
+          <p class="text-lg">395 BDT</p>
+        </div>
+
+        <p class="text-gray-400 text-sm mt-4">Pot color</p>
+
+        <div class="flex justify-between items-center mt-2">
+          <div class="flex gap-2">
+            <span class="w-3 h-3 bg-[#2f2f2f] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#e6b3a0] rounded-full"></span>
+            <span class="w-3 h-3 bg-[#c77f62] rounded-full"></span>
+          </div>
+
+          <button
+  class="add-to-cart border border-[#005746]
+  text-[#005746] px-6 py-2 text-sm
+  hover:bg-[#005746]
+  hover:text-white duration-300"
+
+  data-id="5"
+  data-name="Duo Friendly Plant"
+  data-price="350"
+  data-image="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?q=80&w=500">
+
+  Buy
+</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Arrow -->
+   <button id="shopArrow"
+        class="absolute right-0 top-[220px] translate-x-1/2 bg-white text-[#005746] w-16 h-16 rounded-full shadow-xl flex items-center justify-center text-4xl hover:scale-105 duration-300">
+  →
+</button>
+  </div>
+</section>
+<!-- SEARCH SECTION -->
+<section
+  id="search-section"
+  class="scroll-mt-[110px] bg-[#eefaf7] px-6 md:px-12 lg:px-24 py-16"
+>
+  <div class="max-w-6xl mx-auto">
+
+    <div class="flex items-center w-full h-[58px]">
+
+      <!-- Filter Button -->
+      <button
+        class="h-full w-[60px] border border-[#005746] text-[#005746] flex items-center justify-center hover:bg-[#005746] hover:text-white duration-300"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M4 7h16" stroke-width="1.5"></path>
+          <circle cx="8" cy="7" r="2" fill="currentColor"></circle>
+
+          <path d="M4 17h16" stroke-width="1.5"></path>
+          <circle cx="16" cy="17" r="2" fill="currentColor"></circle>
+        </svg>
+      </button>
+
+      <!-- Input -->
+      <input
+        type="text"
+        placeholder="Search flowers..."
+        class="h-full flex-1 border-t border-b border-[#005746] bg-transparent px-5 text-[#005746] placeholder:text-[#005746]/60 outline-none text-sm md:text-base"
+      />
+
+      <!-- Search Button -->
+      <button
+        class="h-full w-[68px] bg-[#005746] text-white flex items-center justify-center hover:bg-[#004638] duration-300"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="7" stroke-width="1.5"></circle>
+          <path d="M20 20L17 17" stroke-width="1.5"></path>
+        </svg>
+      </button>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- COLORFUL NEW ARRIVALS -->
+<section id="new-arrival-section"
+class="scroll-mt-[110px] bg-[#fafafa] px-6 md:px-12 lg:px-24 py-20">
+
+  <!-- Heading -->
+  <div class="flex items-center justify-between mb-10">
+    <h2 class="text-[#005746] text-2xl md:text-4xl font-medium">
+      Colorful New Arrivals
+    </h2>
+
+    <a href="#" class="text-[#005746] text-lg hover:underline">
+      view all
+    </a>
+  </div>
+
+  <!-- Images Grid -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+
+    <!-- Card 1 -->
+    <div class="relative h-[260px] md:h-[380px] overflow-hidden group">
+
+      <img
+        src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?q=80&w=800"
+        alt="Blue Lily"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-[#003d35]/60 flex flex-col justify-center px-6">
+
+        <h3 class="text-white text-2xl md:text-4xl font-light">
+          Blue Lily
+        </h3>
+
+        <button class="text-white/80 mt-4 text-sm flex items-center gap-2 hover:translate-x-2 duration-300">
+          more information →
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="h-[260px] md:h-[380px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800"
+        alt="Flower"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+    <!-- Card 3 -->
+    <div class="h-[260px] md:h-[380px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800"
+        alt="Flower"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+    <!-- Card 4 -->
+    <div class="h-[260px] md:h-[380px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1496062031456-07b8f162a322?q=80&w=800"
+        alt="Flower"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+  </div>
+</section>
+
+<!-- PLANT STANDS SECTION -->
+<section id="plant-stand-section"
+class="scroll-mt-[110px] bg-[#eefaf7] px-6 md:px-12 lg:px-24 py-20">
+
+  <!-- Heading -->
+  <h2 class="text-[#005746] text-3xl md:text-4xl font-medium mb-10">
+    Plant stands
+  </h2>
+
+  <!-- Content -->
+  <div class="flex flex-col lg:flex-row items-center gap-5">
+
+    <!-- Image 1 -->
+    <div class="w-full lg:w-[32%] h-[280px] md:h-[420px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1585264550248-1778be3b6368?q=80&w=800"
+        alt="Plant Stand"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+    <!-- Image 2 -->
+    <div class="w-full lg:w-[32%] h-[280px] md:h-[420px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1591958911259-bee2173bdccc?q=80&w=800"
+        alt="Hanging Plant"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+    <!-- Image 3 -->
+    <div class="w-full lg:w-[32%] h-[280px] md:h-[420px] overflow-hidden group">
+      <img
+        src="https://images.unsplash.com/photo-1604762524889-3e2fcc145683?q=80&w=800"
+        alt="Plant Hooks"
+        class="w-full h-full object-cover group-hover:scale-110 duration-500"
+      />
+    </div>
+
+    <!-- More Link -->
+    <a href="#"
+       class="text-[#005746] text-sm md:text-base whitespace-nowrap hover:translate-x-2 duration-300">
+      more →
+    </a>
+
+  </div>
+</section>
+
+<!-- FREE SHIPPING SECTION -->
+<section id="contact-section"
+class="scroll-mt-[100px] bg-[#fafafa] px-6 md:px-12 lg:px-24 py-20">
+
+  <div class="bg-[#e7c8bc] overflow-hidden">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+
+      <!-- LEFT CONTENT -->
+      <div class="px-8 md:px-14 py-12 md:py-16 text-[#a7725d]">
+
+        <h2 class="text-4xl md:text-6xl font-light leading-tight">
+          Free Shipping Services
+        </h2>
+
+        <p class="mt-3 text-sm md:text-lg opacity-80">
+          *only for the same region
+        </p>
+
+        <!-- Contact Info -->
+        <div class="mt-12 space-y-4">
+
+          <!-- Phone -->
+          <div class="flex items-center gap-4">
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 5a2 2 0 012-2h2.28a2 2 0 011.948 1.553l.516 2.323a2 2 0 01-.502 1.86l-1.285 1.285a16 16 0 006.364 6.364l1.285-1.285a2 2 0 011.86-.502l2.323.516A2 2 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+              </path>
+            </svg>
+
+            <span class="text-base md:text-xl">
+              +8801967421358
+            </span>
+          </div>
+
+          <!-- Email -->
+          <div class="flex items-center gap-4">
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 12l-4 4-4-4m8-4l-4 4-4-4">
+              </path>
+            </svg>
+
+            <span class="text-base md:text-xl">
+              order@platify.com
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT IMAGE -->
+      <div class="h-[300px] md:h-[450px] overflow-hidden">
+
+        <img
+          src="https://images.unsplash.com/photo-1487070183336-b863922373d4?q=80&w=1200"
+          alt="Flowers"
+          class="w-full h-full object-cover"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- VISIT US SECTION -->
+<section class="bg-[#fafafa] px-6 md:px-12 lg:px-24 py-14">
+
+  <div class="relative h-[260px] md:h-[300px] overflow-hidden">
+
+ <iframe
+  id="locationMap"
+  src="https://maps.google.com/maps?q=Nasirabad%2C%20Chattogram%2C%20Bangladesh&t=&z=14&ie=UTF8&iwloc=&output=embed"
+  class="w-full h-full border-0"
+  loading="lazy"
+  allowfullscreen>
+</iframe>
+    <!-- Light Overlay -->
+    <div class="absolute inset-0 bg-white/20"></div>
+
+    <!-- Visit Card -->
+    <div class="absolute top-6 left-6 md:left-8 bg-white w-[85%] md:w-[520px] px-7 md:px-9 py-7 shadow-sm">
+
+      <!-- Button -->
+  <a href="#"
+   id="getDirectionBtn"
+   class="absolute top-0 right-0 bg-[#005746] text-white px-6 py-4 text-xs md:text-sm tracking-[2px] flex items-center gap-2 z-20">
+
+  ⊙ GET DIRECTIONS
+
+</a>
+      <h2 class="text-[#1f3f39] text-2xl md:text-3xl font-light mb-4">
+        Visit us
+      </h2>
+
+      <p class="text-gray-500 leading-7 text-sm md:text-base">
+         Chattogram, Bangladesh <br>
+        Road No:01, Block:L <br>
+        Nasirabd <br>
+      </p>
+
+      <p class="mt-4 text-gray-500 text-sm md:text-base">
+        <span class="underline text-[#1f3f39]">Open day</span> : 11am–5:30pm everyday
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+  </section>
+
+  <script src="navbar.js"></script>
+  <script src="main.js"></script>
+
+
+</body>
+</html>
