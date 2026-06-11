@@ -1,3 +1,5 @@
+import Navbar from "../components/Navbar";
+
 const products = [
   {
     id: 1,
@@ -63,6 +65,9 @@ function Home() {
   };
 
   return (
+    <>
+      <Navbar />
+
     <section className="min-h-screen bg-[#005746] text-white overflow-x-hidden font-['Poppins']">
       {/* HERO */}
       <main className="min-h-screen pt-[70px] px-6 md:px-12 lg:px-24 py-8 lg:py-0 grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-14">
@@ -403,6 +408,7 @@ function Home() {
         </div>
       </section>
     </section>
+    </>
   );
 }
 
