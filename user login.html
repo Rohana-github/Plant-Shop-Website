@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>User Login | Plantify</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#eefaf7] flex items-center justify-center px-6">
+
+  <div class="w-full max-w-md bg-white shadow-2xl p-8 md:p-10 text-[#005746]">
+
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold">Plantify</h1>
+      <p class="text-xs italic text-[#005746]/70 mt-1">Garden</p>
+
+      <h2 class="text-2xl font-light mt-8">User Login</h2>
+      <p class="text-sm text-gray-500 mt-2">Login to shop your favorite plants</p>
+    </div>
+
+    <form class="space-y-5">
+
+      <div>
+        <label class="block text-sm mb-2">Email Address</label>
+        <input
+          type="email"
+          placeholder="user@example.com"
+          class="w-full h-12 px-4 border border-[#005746]/40 outline-none focus:border-[#005746]"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm mb-2">Password</label>
+        <input
+          type="password"
+          placeholder="Enter password"
+          class="w-full h-12 px-4 border border-[#005746]/40 outline-none focus:border-[#005746]"
+        />
+      </div>
+
+      <div class="flex items-center justify-between text-sm text-gray-500">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="accent-[#005746]" />
+          Remember me
+        </label>
+
+        <a href="#" class="hover:underline text-[#005746]">Forgot?</a>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full h-12 bg-[#005746] text-white font-medium hover:bg-[#004638] duration-300">
+        Login as User
+      </button>
+
+    </form>
+
+    <p class="text-center text-sm text-gray-500 mt-6">
+      Don’t have an account?
+      <a href="#" class="text-[#005746] underline">Create account</a>
+    </p>
+
+    <p class="text-center text-sm text-gray-500 mt-3">
+      Back to
+      <a href="index.html" class="text-[#005746] underline">Home</a>
+    </p>
+
+  </div>
+
+</body>
+</html>
