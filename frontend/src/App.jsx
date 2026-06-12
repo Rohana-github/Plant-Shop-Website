@@ -17,7 +17,7 @@ function App() {
   }
 
   if (page === "checkout") {
-    return <Checkout setPage={setPage} />;
+    return <Checkout />;
   }
 
   return <Login setPage={setPage} />;
