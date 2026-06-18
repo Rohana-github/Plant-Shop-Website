@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Cart from "./pages/Cart";
-
+import AdminLayout from "./components/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminSignup from "./pages/admin/AdminSignup";
 import AdminForgotPassword from "./pages/admin/AdminForgotPassword";
@@ -23,15 +23,11 @@ function App() {
           element={<AdminForgotPassword />}
         />
 
-        <Route
-          path="/admin/dashboard"
-          element={<AdminDashboard />}
-        />
-
-        <Route
-          path="/admin/products"
-          element={<Products />}
-        />
+        {/* Admin pages with sidebar */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="products" element={<Products />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
