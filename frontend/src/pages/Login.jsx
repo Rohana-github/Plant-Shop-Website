@@ -1,4 +1,8 @@
-function Login({ setPage }) {
+import { Link, useNavigate } from "react-router-dom";
+
+function Login() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-[#eefaf7] flex items-center justify-center px-6 font-['Poppins']">
       <div className="w-full max-w-md bg-white shadow-2xl p-8 md:p-10 text-[#005746]">
@@ -37,58 +41,36 @@ function Login({ setPage }) {
               Remember me
             </label>
 
-            <button
-              type="button"
-              onClick={() => setPage("forgot")}
-              className="hover:underline text-[#005746]"
-            >
+            <Link to="/forgot-password" className="text-[#005746] hover:underline">
               Forgot?
-            </button>
+            </Link>
           </div>
 
           <button
             type="button"
-            onClick={() => setPage("checkout")}
+            onClick={() => navigate("/checkout")}
             className="w-full h-12 bg-[#005746] text-white font-medium hover:bg-[#004638] duration-300"
           >
             Login as User
           </button>
-
-          <div className="flex items-center gap-3 my-6">
-            <div className="h-px bg-gray-300 flex-1"></div>
-            <span className="text-gray-400 text-sm">or</span>
-            <div className="h-px bg-gray-300 flex-1"></div>
-          </div>
-
-          <button
-            type="button"
-            className="w-full h-12 border border-[#005746]/40 flex items-center justify-center gap-3 hover:bg-[#eefaf7] duration-300"
-          >
-            <span className="font-semibold">G</span>
-            Continue with Google
-          </button>
         </form>
+
+        <div className="flex items-center gap-3 my-6">
+          <div className="h-px bg-gray-300 flex-1"></div>
+          <span className="text-gray-400 text-sm">or</span>
+          <div className="h-px bg-gray-300 flex-1"></div>
+        </div>
+
+        <button className="w-full h-12 border border-[#005746]/40 flex items-center justify-center gap-3 hover:bg-[#eefaf7] duration-300">
+          <span className="font-semibold">G</span>
+          Continue with Google
+        </button>
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
-          <button
-            type="button"
-            onClick={() => setPage("signup")}
-            className="text-[#005746] underline"
-          >
+          <Link to="/signup" className="text-[#005746] underline">
             Create account
-          </button>
-        </p>
-
-        <p className="text-center text-sm text-gray-500 mt-3">
-          Back to{" "}
-          <button
-            type="button"
-            onClick={() => setPage("login")}
-            className="text-[#005746] underline"
-          >
-            Home
-          </button>
+          </Link>
         </p>
       </div>
     </div>

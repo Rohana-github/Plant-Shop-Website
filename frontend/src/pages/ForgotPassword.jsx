@@ -1,20 +1,14 @@
-function ForgotPassword({ setPage }) {
+import { Link } from "react-router-dom";
+
+function ForgotPassword() {
   return (
     <div className="min-h-screen bg-[#eefaf7] flex items-center justify-center px-6 font-['Poppins']">
       <div className="w-full max-w-md bg-white shadow-2xl p-8 md:p-10 text-[#005746]">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">
-            Plantify
-          </h1>
+          <h1 className="text-3xl font-bold">Plantify</h1>
+          <p className="text-xs italic text-[#005746]/70 mt-1">Garden</p>
 
-          <p className="text-xs italic text-[#005746]/70 mt-1">
-            Garden
-          </p>
-
-          <h2 className="text-2xl font-light mt-8">
-            Forgot Password?
-          </h2>
-
+          <h2 className="text-2xl font-light mt-8">Forgot Password?</h2>
           <p className="text-sm text-gray-500 mt-2">
             Enter your email and we will send a reset link
           </p>
@@ -34,13 +28,9 @@ function ForgotPassword({ setPage }) {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Remember password?{" "}
-          <button
-            type="button"
-            onClick={() => setPage("login")}
-            className="text-[#005746] underline"
-          >
+          <Link to="/login" className="text-[#005746] underline">
             Login
-          </button>
+          </Link>
         </p>
       </div>
     </div>
