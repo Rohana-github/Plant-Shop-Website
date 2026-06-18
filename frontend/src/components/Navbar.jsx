@@ -1,24 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
+
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: id } });
+      return;
+    }
+
     const section = document.getElementById(id);
 
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
-
-    setMobileMenuOpen(false);
   };
 
   return (
     <nav className="fixed top-0 left-0 w-full h-[50px] px-6 md:px-12 lg:px-24 flex items-center justify-between text-white bg-[#005746] z-[999] shadow-sm">
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-8 lg:gap-10 text-sm font-light">
+        <Link to="/" className="hover:text-white/70 duration-300">
+          Home
+        </Link>
+
         <button
           onClick={() => scrollToSection("shop-now")}
           className="hover:text-white/70 duration-300"
@@ -135,10 +148,7 @@ function Navbar() {
           )}
         </div>
 
-        <Link
-          to="/cart"
-          className="hidden sm:flex items-center justify-center"
-        >
+        <Link to="/cart" className="hidden sm:flex items-center justify-center">
           <svg
             className="w-5 h-5 cursor-pointer"
             fill="none"
@@ -154,6 +164,10 @@ function Navbar() {
       {mobileMenuOpen && (
         <div className="absolute top-[50px] left-0 w-full bg-[#004638] px-6 py-6 z-40 shadow-xl md:hidden">
           <div className="flex flex-col gap-5 text-sm font-light">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+              Home
+            </Link>
+
             <button
               onClick={() => scrollToSection("shop-now")}
               className="text-left"

@@ -1,4 +1,6 @@
 import Navbar from "../components/Navbar";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const products = [
   {
@@ -39,6 +41,21 @@ const products = [
 ];
 
 function Home() {
+  const location = useLocation();
+
+useEffect(() => {
+  if (location.state?.scrollTo) {
+    setTimeout(() => {
+      const section = document.getElementById(location.state.scrollTo);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+  }
+}, [location]);
   const handleAddToCart = (product) => {
     const oldCart = JSON.parse(localStorage.getItem("cart")) || [];
     const existing = oldCart.find((item) => item.id === product.id);
@@ -164,7 +181,9 @@ function Home() {
           </h2>
 
           <button className="text-[#005746] text-lg hover:underline">
-            view all
+            <Link to="/shop-all" className="text-[#005746] text-lg hover:underline">
+              view all
+            </Link>
           </button>
         </div>
 
@@ -252,7 +271,9 @@ function Home() {
           </h2>
 
           <a href="#" className="text-[#005746] text-lg hover:underline">
-            view all
+           <Link to="/new-arrivals" className="text-[#005746] text-lg hover:underline">
+             view all
+           </Link>
           </a>
         </div>
 
