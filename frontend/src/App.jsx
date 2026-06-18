@@ -6,37 +6,32 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminSignup from "./pages/admin/AdminSignup";
 import AdminForgotPassword from "./pages/admin/AdminForgotPassword";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Products from "./pages/admin/Products";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* Default Page */}
         <Route path="/" element={<AdminLogin />} />
 
-        {/* Cart */}
         <Route path="/cart" element={<Cart />} />
 
-        {/* Admin Auth Pages */}
         <Route path="/admin/login" element={<AdminLogin />} />
-
-        <Route
-          path="/admin/signup"
-          element={<AdminSignup />}
-        />
-
+        <Route path="/admin/signup" element={<AdminSignup />} />
         <Route
           path="/admin/forgot-password"
           element={<AdminForgotPassword />}
         />
 
-        {/* Admin Dashboard */}
         <Route
           path="/admin/dashboard"
           element={<AdminDashboard />}
         />
 
+        <Route
+          path="/admin/products"
+          element={<Products />}
+        />
       </Routes>
     </BrowserRouter>
   );
