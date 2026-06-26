@@ -1,6 +1,41 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../../api/axios";
 
 const AdminSignup = () => {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    console.log("Signup button clicked");
+
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password do not match");
+      return;
+    }
+
+    try {
+      const res = await API.post("/auth/signup", {
+        name,
+        email,
+        password,
+        role: "admin",
+      });
+
+      alert(res.data.message || "Signup successful");
+
+      navigate("/admin/login");
+    } catch (error) {
+      alert(error.response?.data?.message || "Signup failed");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#005746] flex items-center justify-center px-6">
       <div className="w-full max-w-md bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl p-8 md:p-10 text-white">
@@ -10,34 +45,44 @@ const AdminSignup = () => {
 
           <h2 className="text-2xl font-light mt-8">Admin Sign Up</h2>
 
-          <p className="text-sm text-white/70 mt-2">
-            Create admin account
-          </p>
+          <p className="text-sm text-white/70 mt-2">Create admin account</p>
         </div>
 
-        <form className="space-y-5">
+        <form onSubmit={handleSignup} className="space-y-5">
           <input
             type="text"
             placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+            required
           />
 
           <input
             type="email"
             placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+            required
           />
 
           <input
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+            required
           />
 
           <input
             type="password"
             placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+            required
           />
 
           <button

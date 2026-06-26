@@ -1,7 +1,32 @@
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../../api/axios";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await API.post("/auth/login", {
+        email,
+        password,
+      });
+
+      alert(res.data.message || "Login successful");
+
+      localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
+
+      navigate("/admin/dashboard");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#005746] flex items-center justify-center px-6">
       <div className="w-full max-w-md bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl p-8 md:p-10 text-white">
@@ -15,13 +40,16 @@ const AdminLogin = () => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-sm mb-2">Email Address</label>
             <input
               type="email"
               placeholder="admin@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+              required
             />
           </div>
 
@@ -30,7 +58,10 @@ const AdminLogin = () => {
             <input
               type="password"
               placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full h-12 px-4 bg-white/90 text-[#005746] outline-none placeholder:text-gray-400"
+              required
             />
           </div>
 
@@ -44,12 +75,13 @@ const AdminLogin = () => {
               Forgot?
             </Link>
           </div>
-<Link
-  to="/admin/dashboard"
-  className="block text-center w-full h-12 bg-white text-[#005746] font-medium hover:bg-[#eefaf7] duration-300 leading-[48px]"
->
-  Login as Admin
-</Link>
+
+          <button
+            type="submit"
+            className="block text-center w-full h-12 bg-white text-[#005746] font-medium hover:bg-[#eefaf7] duration-300"
+          >
+            Login as Admin
+          </button>
 
           <p className="text-center text-sm text-white/70 mt-6">
             Don’t have an account?{" "}
