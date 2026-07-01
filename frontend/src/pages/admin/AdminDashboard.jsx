@@ -1,6 +1,38 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import API from "../../api/axios";
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const AdminDashboard = () => {
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalOrders: 0,
+    totalUsers: 0,
+    revenue: 0,
+    recentOrders: [],
+  });
+
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const res = await API.get("/dashboard");
+        setStats(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getStats();
+  }, []);
+
   return (
     <>
       {/* Top Bar */}
@@ -24,22 +56,55 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <div className="bg-white p-6 shadow-lg border-l-4 border-[#005746] rounded-xl">
           <p className="text-sm text-gray-500">Total Products</p>
-          <h3 className="text-3xl font-semibold mt-2">25</h3>
+          <h3 className="text-3xl font-semibold mt-2">
+            {stats.totalProducts}
+          </h3>
         </div>
 
         <div className="bg-white p-6 shadow-lg border-l-4 border-[#005746] rounded-xl">
           <p className="text-sm text-gray-500">Total Orders</p>
-          <h3 className="text-3xl font-semibold mt-2">120</h3>
+          <h3 className="text-3xl font-semibold mt-2">
+            {stats.totalOrders}
+          </h3>
         </div>
 
         <div className="bg-white p-6 shadow-lg border-l-4 border-[#005746] rounded-xl">
           <p className="text-sm text-gray-500">Total Users</p>
-          <h3 className="text-3xl font-semibold mt-2">85</h3>
+          <h3 className="text-3xl font-semibold mt-2">
+            {stats.totalUsers}
+          </h3>
         </div>
 
         <div className="bg-white p-6 shadow-lg border-l-4 border-[#005746] rounded-xl">
           <p className="text-sm text-gray-500">Revenue</p>
-          <h3 className="text-3xl font-semibold mt-2">৳45,500</h3>
+          <h3 className="text-3xl font-semibold mt-2">
+            ৳{stats.revenue}
+          </h3>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="bg-white shadow-lg p-6 rounded-xl mb-10">
+        <h3 className="text-2xl font-medium mb-6 text-[#005746]">
+          Dashboard Overview
+        </h3>
+
+        <div className="w-full h-72">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={[
+                { name: "Products", total: stats.totalProducts },
+                { name: "Orders", total: stats.totalOrders },
+                { name: "Users", total: stats.totalUsers },
+                { name: "Revenue", total: stats.revenue },
+              ]}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="total" fill="#005746" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -48,7 +113,10 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-2xl font-medium">Recent Orders</h3>
 
-          <Link to="/admin/orders" className="underline hover:text-[#004638]">
+          <Link
+            to="/admin/orders"
+            className="underline hover:text-[#004638]"
+          >
             View All
           </Link>
         </div>
@@ -65,26 +133,25 @@ const AdminDashboard = () => {
             </thead>
 
             <tbody>
-              <tr className="border-b hover:bg-[#eefaf7] duration-200">
-                <td className="p-4">#1001</td>
-                <td className="p-4">Meem</td>
-                <td className="p-4">৳1,250</td>
-                <td className="p-4 text-green-600 font-medium">Completed</td>
-              </tr>
+              {stats.recentOrders.map((order) => (
+                <tr
+                  key={order._id}
+                  className="border-b hover:bg-[#eefaf7] duration-200"
+                >
+                  <td className="p-4">#{order._id.slice(-4)}</td>
+                  <td className="p-4">{order.customerName}</td>
+                  <td className="p-4">৳{order.totalAmount}</td>
+                  <td className="p-4 font-medium">{order.status}</td>
+                </tr>
+              ))}
 
-              <tr className="border-b hover:bg-[#eefaf7] duration-200">
-                <td className="p-4">#1002</td>
-                <td className="p-4">Sadia</td>
-                <td className="p-4">৳850</td>
-                <td className="p-4 text-yellow-600 font-medium">Pending</td>
-              </tr>
-
-              <tr className="hover:bg-[#eefaf7] duration-200">
-                <td className="p-4">#1003</td>
-                <td className="p-4">Rafi</td>
-                <td className="p-4">৳1,520</td>
-                <td className="p-4 text-red-500 font-medium">Cancelled</td>
-              </tr>
+              {stats.recentOrders.length === 0 && (
+                <tr>
+                  <td colSpan="4" className="p-4 text-center text-gray-500">
+                    No recent orders
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

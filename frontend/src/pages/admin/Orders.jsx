@@ -1,38 +1,106 @@
+import { useEffect, useState } from "react";
+import API from "../../api/axios";
+
 function Orders() {
+  const [orders, setOrders] = useState([]);
+
+  const getOrders = async () => {
+    try {
+      const res = await API.get("/orders");
+      setOrders(res.data);
+    } catch (error) {
+      console.log(error);
+      alert("Orders load failed");
+    }
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+  const updateStatus = async (id, status) => {
+    try {
+      await API.put(`/orders/${id}/status`, { status });
+      alert("Order status updated");
+      getOrders();
+    } catch (error) {
+      console.log(error);
+      alert("Status update failed");
+    }
+  };
+
+  const deleteOrder = async (id) => {
+    try {
+      await API.delete(`/orders/${id}`);
+      alert("Order deleted");
+      getOrders();
+    } catch (error) {
+      console.log(error);
+      alert("Order delete failed");
+    }
+  };
+
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-semibold text-[#005746] mb-6">
-        Orders
+    <div className="min-h-screen bg-[#eefaf7] p-8">
+      <h1 className="text-4xl font-bold text-[#005746] mb-8">
+        Manage Orders
       </h1>
 
-      <div className="bg-white shadow-lg p-6">
-        <table className="w-full">
+      <div className="bg-white shadow-xl p-6 rounded-lg overflow-x-auto">
+        <table className="w-full text-left">
           <thead>
-            <tr className="border-b">
-              <th className="p-3">Order ID</th>
-              <th className="p-3">Customer</th>
-              <th className="p-3">Products</th>
-              <th className="p-3">Amount</th>
-              <th className="p-3">Status</th>
+            <tr className="border-b text-[#005746]">
+              <th className="p-4">Customer</th>
+              <th className="p-4">Email</th>
+              <th className="p-4">Product</th>
+              <th className="p-4">Qty</th>
+              <th className="p-4">Amount</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr>
-              <td className="p-3">#1001</td>
-              <td className="p-3">Meem</td>
-              <td className="p-3">Snake Plant</td>
-              <td className="p-3">৳450</td>
-              <td className="p-3">Completed</td>
-            </tr>
+            {orders.map((order) => (
+              <tr key={order._id} className="border-b">
+                <td className="p-4">{order.customerName}</td>
+                <td className="p-4">{order.customerEmail}</td>
+                <td className="p-4">{order.productName}</td>
+                <td className="p-4">{order.quantity}</td>
+                <td className="p-4">৳{order.totalAmount}</td>
 
-            <tr>
-              <td className="p-3">#1002</td>
-              <td className="p-3">Sadaf</td>
-              <td className="p-3">Money Plant</td>
-              <td className="p-3">৳350</td>
-              <td className="p-3">Pending</td>
-            </tr>
+                <td className="p-4">
+                  <select
+                    value={order.status}
+                    onChange={(e) => updateStatus(order._id, e.target.value)}
+                    className="border p-2 rounded"
+                  >
+                    <option>Pending</option>
+                    <option>Processing</option>
+                    <option>Shipped</option>
+                    <option>Delivered</option>
+                    <option>Cancelled</option>
+                  </select>
+                </td>
+
+                <td className="p-4">
+                  <button
+                    onClick={() => deleteOrder(order._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+
+            {orders.length === 0 && (
+              <tr>
+                <td colSpan="7" className="p-6 text-center text-gray-500">
+                  No orders found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -1,53 +1,46 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import API from "../../api/axios";
+
 function Products() {
-  const products = [
-    {
-      id: 1,
-      image:
-        "https://images.unsplash.com/photo-1545241047-6083a3684587?w=500",
-      name: "Snake Plant",
-      category: "Indoor",
-      price: 450,
-      stock: 25,
-    },
-    {
-      id: 2,
-      image:
-        "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=500",
-      name: "Money Plant",
-      category: "Indoor",
-      price: 350,
-      stock: 40,
-    },
-    {
-      id: 3,
-      image:
-        "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=500",
-      name: "Peace Lily",
-      category: "Flowering",
-      price: 550,
-      stock: 18,
-    },
-    {
-      id: 4,
-      image:
-        "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500",
-      name: "Aloe Vera",
-      category: "Medicinal",
-      price: 300,
-      stock: 30,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    try {
+      const res = await API.get("/products");
+      setProducts(res.data);
+    } catch (error) {
+      console.log(error);
+      alert("Products load failed");
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      await API.delete(`/products/${id}`);
+      alert("Product deleted");
+      getProducts();
+    } catch (error) {
+      console.log(error);
+      alert("Delete failed");
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#eefaf7] p-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-[#005746]">
-          All Products
-        </h1>
+        <h1 className="text-4xl font-bold text-[#005746]">All Products</h1>
 
-        <button className="bg-[#005746] text-white px-5 py-3">
+        <Link
+          to="/admin/add-product"
+          className="bg-[#005746] text-white px-5 py-3"
+        >
           Add Product
-        </button>
+        </Link>
       </div>
 
       <div className="bg-white shadow-xl p-6 rounded-lg overflow-x-auto">
@@ -65,7 +58,7 @@ function Products() {
 
           <tbody>
             {products.map((product) => (
-              <tr key={product.id} className="border-b">
+              <tr key={product._id} className="border-b">
                 <td className="p-4">
                   <img
                     src={product.image}
@@ -74,35 +67,38 @@ function Products() {
                   />
                 </td>
 
-                <td className="p-4 font-medium">
-                  {product.name}
-                </td>
-
-                <td className="p-4">
-                  {product.category}
-                </td>
-
-                <td className="p-4">
-                  ৳{product.price}
-                </td>
-
-                <td className="p-4">
-                  {product.stock}
-                </td>
+                <td className="p-4 font-medium">{product.name}</td>
+                <td className="p-4">{product.category}</td>
+                <td className="p-4">৳{product.price}</td>
+                <td className="p-4">{product.stock}</td>
 
                 <td className="p-4">
                   <div className="flex gap-2">
-                    <button className="bg-blue-500 text-white px-3 py-2 rounded">
-                      Edit
-                    </button>
+                    <Link
+  to={`/admin/edit-product/${product._id}`}
+  className="bg-blue-500 text-white px-3 py-2 rounded"
+>
+  Edit
+</Link>
 
-                    <button className="bg-red-500 text-white px-3 py-2 rounded">
+                    <button
+                      onClick={() => deleteProduct(product._id)}
+                      className="bg-red-500 text-white px-3 py-2 rounded"
+                    >
                       Delete
                     </button>
                   </div>
                 </td>
               </tr>
             ))}
+
+            {products.length === 0 && (
+              <tr>
+                <td colSpan="6" className="p-6 text-center text-gray-500">
+                  No products found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

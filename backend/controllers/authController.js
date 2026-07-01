@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
 export const signup = async (req, res) => {
+  console.log("Signup API called");
+  console.log(req.body);
   console.log("Signup request body:", req.body);
 
   try {
