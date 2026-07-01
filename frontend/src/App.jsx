@@ -21,6 +21,8 @@ import EditProduct from "./pages/admin/EditProduct";
 import Users from "./pages/admin/Users";
 import Orders from "./pages/admin/Orders";
 import AddProduct from "./pages/admin/AddProduct";
+import UserProducts from "./pages/UserProducts";
+import OrderHistory from "./pages/OrderHistory";
 
 function App() {
   return (
@@ -33,8 +35,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/products" element={<UserProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-history" element={<OrderHistory />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
@@ -47,6 +51,7 @@ function App() {
           <Route path="edit-product/:id" element={<EditProduct />} />
           <Route path="users" element={<Users />} />
           <Route path="orders" element={<Orders />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
