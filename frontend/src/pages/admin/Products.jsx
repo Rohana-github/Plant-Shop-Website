@@ -4,6 +4,8 @@ import API from "../../api/axios";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
 
   const getProducts = async () => {
     try {
@@ -30,6 +32,17 @@ function Products() {
     getProducts();
   }, []);
 
+  const filteredProducts = products.filter((product) => {
+    const matchSearch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchCategory =
+      category === "All" || product.category === category;
+
+    return matchSearch && matchCategory;
+  });
+
   return (
     <div className="min-h-screen bg-[#eefaf7] p-8">
       <div className="flex justify-between items-center mb-8">
@@ -41,6 +54,29 @@ function Products() {
         >
           Add Product
         </Link>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border p-3 rounded w-full md:w-1/2"
+        />
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border p-3 rounded w-full md:w-1/4"
+        >
+          <option>All</option>
+          <option>Indoor Plants</option>
+          <option>Indoor</option>
+          <option>Outdoor</option>
+          <option>Flowering</option>
+          <option>Medicinal</option>
+        </select>
       </div>
 
       <div className="bg-white shadow-xl p-6 rounded-lg overflow-x-auto">
@@ -57,7 +93,7 @@ function Products() {
           </thead>
 
           <tbody>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <tr key={product._id} className="border-b">
                 <td className="p-4">
                   <img
@@ -75,11 +111,11 @@ function Products() {
                 <td className="p-4">
                   <div className="flex gap-2">
                     <Link
-  to={`/admin/edit-product/${product._id}`}
-  className="bg-blue-500 text-white px-3 py-2 rounded"
->
-  Edit
-</Link>
+                      to={`/admin/edit-product/${product._id}`}
+                      className="bg-blue-500 text-white px-3 py-2 rounded"
+                    >
+                      Edit
+                    </Link>
 
                     <button
                       onClick={() => deleteProduct(product._id)}
@@ -92,7 +128,7 @@ function Products() {
               </tr>
             ))}
 
-            {products.length === 0 && (
+            {filteredProducts.length === 0 && (
               <tr>
                 <td colSpan="6" className="p-6 text-center text-gray-500">
                   No products found
