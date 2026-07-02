@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 import API from "../api/axios";
 
 function OrderHistory() {
@@ -18,7 +19,9 @@ function OrderHistory() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#eefaf7] p-8">
+    <>
+    <Navbar />
+    <div className="min-h-screen bg-[#eefaf7] p-8 pt-24">
       <h1 className="text-4xl font-bold text-[#005746] mb-8">
         Order History
       </h1>
@@ -55,6 +58,7 @@ function OrderHistory() {
         </table>
       </div>
     </div>
+    </>
   );
 }
 

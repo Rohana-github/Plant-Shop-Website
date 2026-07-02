@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const totalItems = cart.reduce(
+        (sum, item) => sum + Number(item.quantity || 0),
+        0
+      );
+
+      setCartCount(totalItems);
+    };
+
+    updateCartCount();
+
+    window.addEventListener("cartUpdated", updateCartCount);
+    window.addEventListener("storage", updateCartCount);
+
+    return () => {
+      window.removeEventListener("cartUpdated", updateCartCount);
+      window.removeEventListener("storage", updateCartCount);
+    };
+  }, []);
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
@@ -39,7 +63,6 @@ function Navbar() {
           Shop
         </button>
 
-        {/* Products Dropdown */}
         <div className="relative group">
           <button className="flex items-center gap-1 hover:text-white/70 duration-300">
             Products
@@ -148,7 +171,11 @@ function Navbar() {
           )}
         </div>
 
-        <Link to="/cart" className="hidden sm:flex items-center justify-center">
+        {/* Cart Icon with Count */}
+        <Link
+          to="/cart"
+          className="hidden sm:flex items-center justify-center relative"
+        >
           <svg
             className="w-5 h-5 cursor-pointer"
             fill="none"
@@ -157,6 +184,12 @@ function Navbar() {
           >
             <path d="M5 5h2l2 10h8l2-7H8"></path>
           </svg>
+
+          {cartCount > 0 && (
+            <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+              {cartCount}
+            </span>
+          )}
         </Link>
       </div>
 
@@ -209,7 +242,7 @@ function Navbar() {
             </Link>
 
             <Link to="/cart" onClick={() => setMobileMenuOpen(false)}>
-              Cart
+              Cart {cartCount > 0 && `(${cartCount})`}
             </Link>
           </div>
         </div>
