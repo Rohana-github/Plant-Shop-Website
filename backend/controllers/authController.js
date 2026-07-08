@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { OAuth2Client } from "google-auth-library";
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const signup = async (req, res) => {
-  console.log("Signup API called");
-  console.log(req.body);
-  console.log("Signup request body:", req.body);
-
   try {
     const { name, email, password, role } = req.body;
 
@@ -20,16 +20,20 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
-       name,
-       email,
-       password: hashedPassword,
-       role: role || "user",
-     });
-    console.log("Saved User:", user);
+      name,
+      email,
+      password: hashedPassword,
+      role: role || "user",
+    });
 
     res.status(201).json({
       message: "Signup successful",
-      user,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -46,8 +50,8 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+      return res.status(400).json({
+        message: "Invalid email or password",
       });
     }
 
@@ -55,17 +59,86 @@ export const login = async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({
-        message: "Wrong password",
+        message: "Invalid email or password",
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
     res.status(200).json({
       message: "Login successful",
-      user,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({
       message: "Login failed",
+      error: error.message,
+    });
+  }
+};
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    const { name, email, picture } = payload;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        password: "google-login",
+        role: "user",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.status(200).json({
+      message: "Google login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        picture,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Google login failed",
       error: error.message,
     });
   }

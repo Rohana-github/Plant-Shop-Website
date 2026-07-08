@@ -1,7 +1,39 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import API from "../api/axios";
 
 function Login() {
   const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await API.post("/auth/login", form);
+
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("token", res.data.token);
+
+      alert("Login successful");
+      navigate("/");
+    } catch (error) {
+      console.log(error.response?.data || error);
+      alert(error.response?.data?.message || "Login failed");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#eefaf7] flex items-center justify-center px-6 font-['Poppins']">
@@ -16,13 +48,17 @@ function Login() {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-sm mb-2">Email Address</label>
             <input
               type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
               placeholder="user@example.com"
               className="w-full h-12 px-4 border border-[#005746]/40 outline-none focus:border-[#005746]"
+              required
             />
           </div>
 
@@ -30,8 +66,12 @@ function Login() {
             <label className="block text-sm mb-2">Password</label>
             <input
               type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
               placeholder="Enter password"
               className="w-full h-12 px-4 border border-[#005746]/40 outline-none focus:border-[#005746]"
+              required
             />
           </div>
 
@@ -41,14 +81,16 @@ function Login() {
               Remember me
             </label>
 
-            <Link to="/forgot-password" className="text-[#005746] hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-[#005746] hover:underline"
+            >
               Forgot?
             </Link>
           </div>
 
           <button
-            type="button"
-            onClick={() => navigate("/checkout")}
+            type="submit"
             className="w-full h-12 bg-[#005746] text-white font-medium hover:bg-[#004638] duration-300"
           >
             Login as User
@@ -61,10 +103,29 @@ function Login() {
           <div className="h-px bg-gray-300 flex-1"></div>
         </div>
 
-        <button className="w-full h-12 border border-[#005746]/40 flex items-center justify-center gap-3 hover:bg-[#eefaf7] duration-300">
-          <span className="font-semibold">G</span>
-          Continue with Google
-        </button>
+        <div className="flex justify-center">
+<GoogleLogin
+  onSuccess={async (credentialResponse) => {
+    try {
+      const res = await API.post("/auth/google", {
+        credential: credentialResponse.credential,
+      });
+
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("token", res.data.token);
+
+      alert("Google login successful");
+      navigate("/");
+    } catch (error) {
+      console.log(error.response?.data || error);
+      alert(error.response?.data?.message || "Google login failed");
+    }
+  }}
+  onError={() => {
+    alert("Google Login Failed");
+  }}
+/>
+        </div>
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}

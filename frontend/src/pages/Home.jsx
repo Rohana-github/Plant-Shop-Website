@@ -5,6 +5,7 @@ import API from "../api/axios";
 
 
 function Home() {
+  const [searchText, setSearchText] = useState("");
   const location = useLocation();
 
 const [products, setProducts] = useState([]);
@@ -237,28 +238,77 @@ const scrollShop = () => {
       </section>
 
       {/* SEARCH */}
-      <section
-        id="search-section"
-        className="scroll-mt-[110px] bg-[#eefaf7] px-6 md:px-12 lg:px-24 py-16"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center w-full h-[58px]">
-            <button className="h-full w-[60px] border border-[#005746] text-[#005746] flex items-center justify-center hover:bg-[#005746] hover:text-white duration-300">
-              ⚙
-            </button>
+<section
+  id="search-section"
+  className="scroll-mt-[110px] bg-[#eefaf7] px-6 md:px-12 lg:px-24 py-16"
+>
+  <div className="max-w-6xl mx-auto relative">
+    <div className="flex items-center w-full h-[58px]">
+      <button className="h-full w-[60px] border border-[#005746] text-[#005746] flex items-center justify-center">
+        ⚙
+      </button>
 
-            <input
-              type="text"
-              placeholder="Search flowers..."
-              className="h-full flex-1 border-t border-b border-[#005746] bg-transparent px-5 text-[#005746] placeholder:text-[#005746]/60 outline-none text-sm md:text-base"
-            />
+      <input
+        type="text"
+        placeholder="Search plants..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        className="h-full flex-1 border-t border-b border-[#005746] bg-transparent px-5 text-[#005746] placeholder:text-[#005746]/60 outline-none"
+      />
 
-            <button className="h-full w-[68px] bg-[#005746] text-white flex items-center justify-center hover:bg-[#004638] duration-300">
-              🔍
-            </button>
+      <button className="h-full w-[68px] bg-[#005746] text-white flex items-center justify-center">
+        🔍
+      </button>
+    </div>
+
+    {searchText && (
+      <div className="absolute left-0 top-[68px] w-full bg-white rounded-xl shadow-2xl z-50 max-h-[420px] overflow-y-auto">
+        {products
+          .filter((product) =>
+            product.name.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((product) => (
+            <div
+              key={product._id}
+              className="flex items-center gap-4 p-4 border-b hover:bg-[#eefaf7]"
+            >
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-16 h-16 rounded object-cover"
+              />
+
+              <div className="flex-1">
+                <h3 className="font-semibold text-[#005746]">
+                  {product.name}
+                </h3>
+                <p className="text-gray-500 text-sm">৳{product.price}</p>
+              </div>
+
+              {product.stock > 0 ? (
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="bg-[#005746] text-white px-5 py-2 rounded"
+                >
+                  Buy
+                </button>
+              ) : (
+                <span className="text-red-500 font-semibold">Stock Out</span>
+              )}
+            </div>
+          ))}
+
+        {products.filter((product) =>
+          product.name.toLowerCase().includes(searchText.toLowerCase())
+        ).length === 0 && (
+          <div className="p-6 text-center text-gray-500">
+            No products found.
           </div>
-        </div>
-      </section>
+        )}
+      </div>
+    )}
+  </div>
+</section>
 
  {/* NEW ARRIVALS */}
 <section

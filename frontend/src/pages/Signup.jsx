@@ -1,6 +1,38 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../api/axios";
 
 function Signup() {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password do not match");
+      return;
+    }
+
+    try {
+      await API.post("/auth/signup", {
+        name,
+        email,
+        password,
+      });
+
+      alert("Signup successful");
+      navigate("/login");
+    } catch (error) {
+      console.log(error.response?.data || error);
+      alert(error.response?.data?.message || "Signup failed");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#eefaf7] flex items-center justify-center px-6 font-['Poppins']">
       <div className="w-full max-w-md bg-white shadow-2xl p-8 md:p-10 text-[#005746]">
@@ -14,11 +46,42 @@ function Signup() {
           </p>
         </div>
 
-        <form className="space-y-5">
-          <input type="text" placeholder="Full Name" className="w-full h-12 px-4 border border-[#005746]/40 outline-none" />
-          <input type="email" placeholder="Email Address" className="w-full h-12 px-4 border border-[#005746]/40 outline-none" />
-          <input type="password" placeholder="Password" className="w-full h-12 px-4 border border-[#005746]/40 outline-none" />
-          <input type="password" placeholder="Confirm Password" className="w-full h-12 px-4 border border-[#005746]/40 outline-none" />
+        <form onSubmit={handleSignup} className="space-y-5">
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full h-12 px-4 border border-[#005746]/40 outline-none"
+            required
+          />
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full h-12 px-4 border border-[#005746]/40 outline-none"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full h-12 px-4 border border-[#005746]/40 outline-none"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full h-12 px-4 border border-[#005746]/40 outline-none"
+            required
+          />
 
           <button className="w-full h-12 bg-[#005746] text-white">
             Sign Up
