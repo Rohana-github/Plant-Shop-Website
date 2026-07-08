@@ -18,14 +18,21 @@ function Cart() {
   };
 
   const increaseQty = (id) => {
-    const newCart = cart.map((item) =>
-      getItemId(item) === id
-        ? { ...item, quantity: item.quantity + 1 }
-        : item
-    );
+  const newCart = cart.map((item) => {
+    if (getItemId(item) === id) {
+      if (item.quantity >= item.stock) {
+        alert(`Only ${item.stock} items available in stock`);
+        return item;
+      }
 
-    updateCart(newCart);
-  };
+      return { ...item, quantity: item.quantity + 1 };
+    }
+
+    return item;
+  });
+
+  updateCart(newCart);
+};
 
   const decreaseQty = (id) => {
     const newCart = cart.map((item) =>

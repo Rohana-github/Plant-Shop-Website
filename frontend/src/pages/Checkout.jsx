@@ -26,37 +26,42 @@ function Checkout() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+const placeOrder = async (e) => {
+  e.preventDefault();
 
-  const placeOrder = async (e) => {
-    e.preventDefault();
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
 
-    if (cart.length === 0) {
-      alert("Cart is empty");
-      return;
-    }
+  try {
+    await API.post("/orders", {
+      customerName: form.customerName,
+      customerEmail: form.customerEmail,
+      phone: form.phone,
+      address: form.address,
 
-    try {
-      for (const item of cart) {
-        await API.post("/orders", {
-          customerName: form.customerName,
-          customerEmail: form.customerEmail,
-          phone: form.phone,
-          address: form.address,
-          productName: item.name,
-          quantity: item.quantity,
-          totalAmount: item.price * item.quantity,
-          status: "Pending",
-        });
-      }
+      items: cart.map((item) => ({
+        productId: item._id || item.id,
+        productName: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
 
-      localStorage.removeItem("cart");
-      alert("Order placed successfully");
-      navigate("/order-history");
-    } catch (error) {
-      console.log(error);
-      alert("Order failed");
-    }
-  };
+      totalAmount: total,
+      status: "Pending",
+    });
+
+    localStorage.removeItem("cart");
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    alert("Order placed successfully");
+    navigate("/order-history");
+  } catch (error) {
+    console.log(error.response?.data || error);
+    alert(error.response?.data?.message || "Order failed");
+  }
+};
 
   return (
     <>

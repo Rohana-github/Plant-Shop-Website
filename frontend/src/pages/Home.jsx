@@ -1,47 +1,26 @@
 import Navbar from "../components/Navbar";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import API from "../api/axios";
 
-const products = [
-  {
-    id: 1,
-    name: "Peperomia Ginny",
-    price: 250,
-    image:
-      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=500",
-  },
-  {
-    id: 2,
-    name: "Bird’s Nest Fern",
-    price: 450,
-    image:
-      "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=800",
-  },
-  {
-    id: 3,
-    name: "Large Majesty Palm",
-    price: 520,
-    image:
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=600",
-  },
-  {
-    id: 4,
-    name: "Pet Friendly Plant",
-    price: 300,
-    image:
-      "https://images.unsplash.com/photo-1598880940080-ff9a29891b85?q=80&w=500",
-  },
-  {
-    id: 5,
-    name: "Duo Friendly Plant",
-    price: 350,
-    image:
-      "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?q=80&w=500",
-  },
-];
 
 function Home() {
   const location = useLocation();
+
+const [products, setProducts] = useState([]);
+
+useEffect(() => {
+  const getProducts = async () => {
+    try {
+      const res = await API.get("/products");
+      setProducts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getProducts();
+}, []);
 
 useEffect(() => {
   if (location.state?.scrollTo) {
@@ -56,27 +35,39 @@ useEffect(() => {
     }, 100);
   }
 }, [location]);
-  const handleAddToCart = (product) => {
-    const oldCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existing = oldCart.find((item) => item.id === product.id);
+ const handleAddToCart = (product) => {
+  if (product.stock <= 0) {
+    alert("This product is out of stock");
+    return;
+  }
 
-    let updatedCart;
+  const oldCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existing = oldCart.find((item) => item._id === product._id);
 
-    if (existing) {
-      updatedCart = oldCart.map((item) =>
-        item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    } else {
-      updatedCart = [...oldCart, { ...product, quantity: 1 }];
+  let updatedCart;
+
+  if (existing) {
+    if (existing.quantity >= product.stock) {
+      alert(`Only ${product.stock} items available in stock`);
+      return;
     }
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    alert(`${product.name} added to cart`);
-  };
+    updatedCart = oldCart.map((item) =>
+      item._id === product._id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+  } else {
+    updatedCart = [...oldCart, { ...product, quantity: 1 }];
+  }
 
-  const scrollShop = () => {
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  window.dispatchEvent(new Event("cartUpdated"));
+
+  alert(`${product.name} added to cart`);
+};
+
+const scrollShop = () => {
     const slider = document.getElementById("shopSlider");
     slider.scrollBy({ left: 300, behavior: "smooth" });
   };
@@ -193,7 +184,7 @@ useEffect(() => {
             className="flex gap-8 overflow-x-auto scroll-smooth pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {products.map((product) => (
-              <div key={product.id} className="min-w-[230px]">
+             <div key={product._id} className="min-w-[230px]">
                 <div className="h-[305px] bg-[#e8e8e8] overflow-hidden">
                   <img
                     src={product.image}
@@ -216,12 +207,21 @@ useEffect(() => {
                     <span className="w-3 h-3 bg-[#c77f62] rounded-full"></span>
                   </div>
 
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="border border-[#005746] text-[#005746] px-6 py-2 text-sm hover:bg-[#005746] hover:text-white duration-300"
-                  >
-                    Buy
-                  </button>
+                  {product.stock <= 0 ? (
+  <button
+    disabled
+    className="border border-gray-400 text-gray-500 px-6 py-2 text-sm cursor-not-allowed"
+  >
+    Stock Out
+  </button>
+) : (
+  <button
+    onClick={() => handleAddToCart(product)}
+    className="border border-[#005746] text-[#005746] px-6 py-2 text-sm hover:bg-[#005746] hover:text-white duration-300"
+  >
+    Buy
+  </button>
+)}
                 </div>
               </div>
             ))}
@@ -260,57 +260,59 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* NEW ARRIVALS */}
-      <section
-        id="new-arrival-section"
-        className="scroll-mt-[110px] bg-[#fafafa] px-6 md:px-12 lg:px-24 py-20"
-      >
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="text-[#005746] text-2xl md:text-4xl font-medium">
-            Colorful New Arrivals
-          </h2>
+ {/* NEW ARRIVALS */}
+<section
+  id="new-arrival-section"
+  className="scroll-mt-[110px] bg-[#fafafa] px-6 md:px-12 lg:px-24 py-20"
+>
+  <div className="flex items-center justify-between mb-10">
+    <h2 className="text-[#005746] text-2xl md:text-4xl font-medium">
+      Colorful New Arrivals
+    </h2>
 
-          <a href="#" className="text-[#005746] text-lg hover:underline">
-           <Link to="/new-arrivals" className="text-[#005746] text-lg hover:underline">
-             view all
-           </Link>
-          </a>
-        </div>
+    <Link
+      to="/new-arrivals"
+      className="text-[#005746] text-lg hover:underline"
+    >
+      view all
+    </Link>
+  </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-          {[
-            "https://images.unsplash.com/photo-1468327768560-75b778cbb551?q=80&w=800",
-            "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800",
-            "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800",
-            "https://images.unsplash.com/photo-1496062031456-07b8f162a322?q=80&w=800",
-          ].map((image, index) => (
-            <div
-              key={index}
-              className="relative h-[260px] md:h-[380px] overflow-hidden group"
-            >
-              <img
-                src={image}
-                alt="Flower"
-                className="w-full h-full object-cover group-hover:scale-110 duration-500"
-              />
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+    {products
+      .filter((product) => product.category === "New Arrival")
+      .slice(0, 4)
+      .map((product, index) => (
+        <div
+          key={product._id}
+          className="relative h-[260px] md:h-[380px] overflow-hidden group"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-110 duration-500"
+          />
 
-              {index === 0 && (
-                <div className="absolute inset-0 bg-[#003d35]/60 flex flex-col justify-center px-6">
-                  <h3 className="text-white text-2xl md:text-4xl font-light">
-                    Blue Lily
-                  </h3>
-
-                  <button className="text-white/80 mt-4 text-sm flex items-center gap-2 hover:translate-x-2 duration-300">
-                    more information →
-                  </button>
-                </div>
-              )}
+          {index === 0 && (
+            <div className="absolute inset-0 bg-[#003d35]/60 flex flex-col justify-center px-6">
+              <h3 className="text-white text-2xl md:text-4xl font-light">
+                {product.name}
+              </h3>
             </div>
-          ))}
+          )}
         </div>
-      </section>
+      ))}
 
+    {products.filter((product) => product.category === "New Arrival").length ===
+      0 && (
+      <p className="text-[#005746] col-span-4">
+        No new arrivals found.
+      </p>
+    )}
+  </div>
+</section>
       {/* PLANT STANDS */}
+{/* PLANT STANDS */}
       <section
         id="plant-stand-section"
         className="scroll-mt-[110px] bg-[#eefaf7] px-6 md:px-12 lg:px-24 py-20"
@@ -345,7 +347,6 @@ useEffect(() => {
           </a>
         </div>
       </section>
-
       {/* CONTACT */}
       <section
         id="contact-section"

@@ -65,15 +65,21 @@ function AddProduct() {
             required
           />
 
-          <input
-            type="text"
-            name="category"
-            placeholder="Category"
-            value={product.category}
-            onChange={handleChange}
-            className="w-full border p-3 rounded"
-            required
-          />
+          <select
+  name="category"
+  value={product.category}
+  onChange={handleChange}
+  className="w-full border p-3 rounded"
+  required
+>
+  <option value="">Select Category</option>
+  <option value="Indoor">Indoor</option>
+  <option value="Outdoor">Outdoor</option>
+  <option value="Flowering">Flowering</option>
+  <option value="Medicinal">Medicinal</option>
+  <option value="New Arrival">New Arrival</option>
+  <option value="Plant Stand">Plant Stand</option>
+</select>
 
           <input
             type="number"

@@ -1,8 +1,36 @@
 import Order from "../models/Order.js";
+import Product from "../models/Product.js";
 
 // Create Order
 export const createOrder = async (req, res) => {
   try {
+    const { items } = req.body;
+
+    // 1. Stock check
+    for (const item of items) {
+      const product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          message: `${item.productName} not found`,
+        });
+      }
+
+      if (product.stock < item.quantity) {
+        return res.status(400).json({
+          message: `${product.name} stock not available`,
+        });
+      }
+    }
+
+    // 2. Stock reduce
+    for (const item of items) {
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: { stock: -item.quantity },
+      });
+    }
+
+    // 3. Order create
     const order = await Order.create(req.body);
 
     res.status(201).json({
@@ -13,7 +41,6 @@ export const createOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 // Get All Orders
 export const getOrders = async (req, res) => {
   try {

@@ -1,45 +1,60 @@
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-
-const arrivals = [
-  {
-    id: 1,
-    name: "Blue Lily",
-    image:
-      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?q=80&w=800",
-  },
-  {
-    id: 2,
-    name: "Pink Flower",
-    image:
-      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800",
-  },
-  {
-    id: 3,
-    name: "Garden Daisy",
-    image:
-      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800",
-  },
-  {
-    id: 4,
-    name: "Yellow Bloom",
-    image:
-      "https://images.unsplash.com/photo-1496062031456-07b8f162a322?q=80&w=800",
-  },
-  {
-    id: 5,
-    name: "Rose Collection",
-    image:
-      "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=800",
-  },
-  {
-    id: 6,
-    name: "Colorful Bouquet",
-    image:
-      "https://images.unsplash.com/photo-1444021465936-c6ca81d39b84?q=80&w=800",
-  },
-];
+import API from "../api/axios";
 
 function NewArrivalsAll() {
+  const [arrivals, setArrivals] = useState([]);
+
+  useEffect(() => {
+    const getNewArrivals = async () => {
+      try {
+        const res = await API.get("/products");
+
+        const filtered = res.data.filter(
+          (product) => product.category === "New Arrival"
+        );
+
+        setArrivals(filtered);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getNewArrivals();
+  }, []);
+
+const handleAddToCart = (product) => {
+  if (product.stock <= 0) {
+    alert("This product is out of stock");
+    return;
+  }
+
+  const oldCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existing = oldCart.find((item) => item._id === product._id);
+
+  let updatedCart;
+
+  if (existing) {
+    if (existing.quantity >= product.stock) {
+      alert(`Only ${product.stock} items available in stock`);
+      return;
+    }
+
+    updatedCart = oldCart.map((item) =>
+      item._id === product._id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+  } else {
+    updatedCart = [...oldCart, { ...product, quantity: 1 }];
+  }
+
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  window.dispatchEvent(new Event("cartUpdated"));
+
+  alert(`${product.name} added to cart`);
+};
+
   return (
     <>
       <Navbar />
@@ -49,24 +64,49 @@ function NewArrivalsAll() {
           All Colorful New Arrivals
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-          {arrivals.map((item) => (
-            <div key={item.id} className="group">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+          {arrivals.map((product) => (
+            <div key={product._id} className="group">
               <div className="h-[360px] overflow-hidden">
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={product.image}
+                  alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 duration-500"
                 />
               </div>
 
-              <h3 className="text-[#005746] text-xl mt-4">{item.name}</h3>
+              <div className="mt-4 flex justify-between items-center">
+            <h3 className="text-[#005746] text-lg font-medium">
+                   {product.name}
+              </h3>
 
-              <button className="mt-3 text-[#005746] hover:translate-x-2 duration-300">
-                more information →
-              </button>
+                     <p className="text-[#005746] text-lg font-semibold">
+                  ৳{product.price}
+                           </p>
+                </div>
+            
+
+      {product.stock <= 0 ? (
+  <button
+    disabled
+    className="mt-4 w-full bg-gray-300 text-gray-600 py-2 cursor-not-allowed"
+  >
+    Stock Out
+  </button>
+) : (
+  <button
+    onClick={() => handleAddToCart(product)}
+    className="mt-4 w-full border border-[#005746] text-[#005746] py-2 hover:bg-[#005746] hover:text-white duration-300"
+  >
+    Buy
+  </button>
+)}
             </div>
           ))}
+
+          {arrivals.length === 0 && (
+            <p className="text-[#005746]">No new arrivals found.</p>
+          )}
         </div>
       </section>
     </>

@@ -71,11 +71,13 @@ function Products() {
           className="border p-3 rounded w-full md:w-1/4"
         >
           <option>All</option>
-          <option>Indoor Plants</option>
+        
           <option>Indoor</option>
           <option>Outdoor</option>
           <option>Flowering</option>
           <option>Medicinal</option>
+          <option>New Arrival</option>
+          <option>Plant Stand</option>
         </select>
       </div>
 

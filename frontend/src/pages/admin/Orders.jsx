@@ -21,7 +21,6 @@ function Orders() {
   const updateStatus = async (id, status) => {
     try {
       await API.put(`/orders/${id}/status`, { status });
-      alert("Order status updated");
       getOrders();
     } catch (error) {
       console.log(error);
@@ -52,8 +51,8 @@ function Orders() {
             <tr className="border-b text-[#005746]">
               <th className="p-4">Customer</th>
               <th className="p-4">Email</th>
-              <th className="p-4">Product</th>
-              <th className="p-4">Qty</th>
+              <th className="p-4">Products</th>
+              <th className="p-4">Total Items</th>
               <th className="p-4">Amount</th>
               <th className="p-4">Status</th>
               <th className="p-4">Action</th>
@@ -61,38 +60,55 @@ function Orders() {
           </thead>
 
           <tbody>
-            {orders.map((order) => (
-              <tr key={order._id} className="border-b">
-                <td className="p-4">{order.customerName}</td>
-                <td className="p-4">{order.customerEmail}</td>
-                <td className="p-4">{order.productName}</td>
-                <td className="p-4">{order.quantity}</td>
-                <td className="p-4">৳{order.totalAmount}</td>
+            {orders.map((order) => {
+              const totalItems = order.items?.reduce(
+                (sum, item) => sum + item.quantity,
+                0
+              );
 
-                <td className="p-4">
-                  <select
-                    value={order.status}
-                    onChange={(e) => updateStatus(order._id, e.target.value)}
-                    className="border p-2 rounded"
-                  >
-                    <option>Pending</option>
-                    <option>Processing</option>
-                    <option>Shipped</option>
-                    <option>Delivered</option>
-                    <option>Cancelled</option>
-                  </select>
-                </td>
+              return (
+                <tr key={order._id} className="border-b">
+                  <td className="p-4">{order.customerName}</td>
+                  <td className="p-4">{order.customerEmail}</td>
 
-                <td className="p-4">
-                  <button
-                    onClick={() => deleteOrder(order._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  <td className="p-4">
+                    {order.items?.map((item, index) => (
+                      <div key={index}>
+                        {item.productName} × {item.quantity}
+                      </div>
+                    ))}
+                  </td>
+
+                  <td className="p-4">{totalItems}</td>
+                  <td className="p-4">৳{order.totalAmount}</td>
+
+                  <td className="p-4">
+                    <select
+                      value={order.status}
+                      onChange={(e) =>
+                        updateStatus(order._id, e.target.value)
+                      }
+                      className="border border-[#005746] p-2 rounded"
+                    >
+                      <option>Pending</option>
+                      <option>Processing</option>
+                      <option>Shipped</option>
+                      <option>Delivered</option>
+                      <option>Cancelled</option>
+                    </select>
+                  </td>
+
+                  <td className="p-4">
+                    <button
+                      onClick={() => deleteOrder(order._id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
 
             {orders.length === 0 && (
               <tr>
