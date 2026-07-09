@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -27,11 +28,11 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("token", res.data.token);
 
-      alert("Login successful");
+      toast.success("Login successful");
       navigate("/");
     } catch (error) {
       console.log(error.response?.data || error);
-      alert(error.response?.data?.message || "Login failed");
+      toast.success(error.response?.data?.message || "Login failed");
     }
   };
 

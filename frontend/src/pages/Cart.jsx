@@ -102,14 +102,23 @@ function Cart() {
           <div className="text-right mt-6">
             <h2 className="text-2xl font-bold">Total: ৳{total}</h2>
 
-            {cart.length > 0 && (
-              <Link
-                to="/checkout"
-                className="inline-block mt-4 bg-[#005746] text-white px-6 py-3 rounded"
-              >
-                Checkout
-              </Link>
-            )}
+          <div className="flex justify-end gap-4 mt-4">
+  <Link
+    to="/order-history"
+    className="border border-[#005746] text-[#005746] px-6 py-3 rounded hover:bg-[#005746] hover:text-white duration-300"
+  >
+    Order History
+  </Link>
+
+  {cart.length > 0 && (
+    <Link
+      to="/checkout"
+      className="bg-[#005746] text-white px-6 py-3 rounded hover:bg-[#004638] duration-300"
+    >
+      Checkout
+    </Link>
+  )}
+</div>
           </div>
         </div>
       </div>

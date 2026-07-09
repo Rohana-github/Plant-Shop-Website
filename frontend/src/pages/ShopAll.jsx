@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 function ShopAll() {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ function ShopAll() {
   }, []);
 const handleAddToCart = (product) => {
   if (product.stock <= 0) {
-    alert("This product is out of stock");
+    toast.success("This product is out of stock");
     return;
   }
 
@@ -30,7 +31,7 @@ const handleAddToCart = (product) => {
 
   if (existing) {
     if (existing.quantity >= product.stock) {
-      alert(`Only ${product.stock} items available in stock`);
+      toast.error(`Only ${product.stock} items available in stock`);
       return;
     }
 
@@ -46,7 +47,7 @@ const handleAddToCart = (product) => {
   localStorage.setItem("cart", JSON.stringify(updatedCart));
   window.dispatchEvent(new Event("cartUpdated"));
 
-  alert(`${product.name} added to cart`);
+  toast.success(`${product.name} added to cart`);
 };
 
   return (

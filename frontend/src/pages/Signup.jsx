@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 function Signup() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Signup() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Password and Confirm Password do not match");
+      toast.success("Password and Confirm Password do not match");
       return;
     }
 
@@ -25,11 +26,11 @@ function Signup() {
         password,
       });
 
-      alert("Signup successful");
+      toast.success("Signup successful");
       navigate("/login");
     } catch (error) {
       console.log(error.response?.data || error);
-      alert(error.response?.data?.message || "Signup failed");
+      toast.success(error.response?.data?.message || "Signup failed");
     }
   };
 

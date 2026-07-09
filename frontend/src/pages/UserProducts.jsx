@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 function UserProducts() {
   const [products, setProducts] = useState([]);
@@ -30,7 +31,7 @@ function UserProducts() {
 
     localStorage.setItem("cart", JSON.stringify(cart));
     window.dispatchEvent(new Event("cartUpdated"));
-    alert("Added to cart");
+    toast.success("Added to cart");
   };
 
   return (

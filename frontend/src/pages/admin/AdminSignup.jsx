@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 const AdminSignup = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const AdminSignup = () => {
     console.log("Signup button clicked");
 
     if (password !== confirmPassword) {
-      alert("Password and Confirm Password do not match");
+      toast.success("Password and Confirm Password do not match");
       return;
     }
 
@@ -28,11 +29,11 @@ const AdminSignup = () => {
         role: "admin",
       });
 
-      alert(res.data.message || "Signup successful");
+      toast.success(res.data.message || "Signup successful");
 
       navigate("/admin/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Signup failed");
+      toast.success(error.response?.data?.message || "Signup failed");
     }
   };
 

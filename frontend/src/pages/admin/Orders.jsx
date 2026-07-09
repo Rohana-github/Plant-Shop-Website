@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -10,7 +11,7 @@ function Orders() {
       setOrders(res.data);
     } catch (error) {
       console.log(error);
-      alert("Orders load failed");
+      toast.success("Orders load failed");
     }
   };
 
@@ -24,18 +25,18 @@ function Orders() {
       getOrders();
     } catch (error) {
       console.log(error);
-      alert("Status update failed");
+      toast.success("Status update failed");
     }
   };
 
   const deleteOrder = async (id) => {
     try {
       await API.delete(`/orders/${id}`);
-      alert("Order deleted");
+      toast.success("Order deleted");
       getOrders();
     } catch (error) {
       console.log(error);
-      alert("Order delete failed");
+      toast.success("Order delete failed");
     }
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -13,18 +14,18 @@ function Products() {
       setProducts(res.data);
     } catch (error) {
       console.log(error);
-      alert("Products load failed");
+      toast.success("Products load failed");
     }
   };
 
   const deleteProduct = async (id) => {
     try {
       await API.delete(`/products/${id}`);
-      alert("Product deleted");
+      toast.success("Product deleted");
       getProducts();
     } catch (error) {
       console.log(error);
-      alert("Delete failed");
+      toast.success("Delete failed");
     }
   };
 

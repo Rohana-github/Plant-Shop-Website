@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 function EditProduct() {
   const { id } = useParams();
@@ -26,7 +27,7 @@ function EditProduct() {
       });
     } catch (error) {
       console.log(error);
-      alert("Product load failed");
+      toast.success("Product load failed");
     }
   };
 
@@ -46,11 +47,11 @@ function EditProduct() {
 
     try {
       await API.put(`/products/${id}`, product);
-      alert("Product updated successfully");
+      toast.success("Product updated successfully");
       navigate("/admin/products");
     } catch (error) {
       console.log(error);
-      alert("Product update failed");
+      toast.success("Product update failed");
     }
   };
 

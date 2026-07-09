@@ -30,8 +30,11 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 3. Order create
-    const order = await Order.create(req.body);
+    // 3. Order create with logged-in userId
+    const order = await Order.create({
+      ...req.body,
+      userId: req.user.id,
+    });
 
     res.status(201).json({
       message: "Order created successfully",
@@ -41,7 +44,21 @@ export const createOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// Get All Orders
+
+// User er nijer orders
+export const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      userId: req.user.id,
+    }).sort({ createdAt: -1 });
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Admin: Get All Orders
 export const getOrders = async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
