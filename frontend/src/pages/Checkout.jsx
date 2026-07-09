@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api/axios";
 import Navbar from "../components/Navbar";
+import toast from "react-hot-toast";
 
 function Checkout() {
   const navigate = useNavigate();
@@ -30,36 +31,52 @@ const placeOrder = async (e) => {
   e.preventDefault();
 
   if (cart.length === 0) {
-    alert("Cart is empty");
+    toast.error("Cart is empty");
     return;
   }
 
   try {
-    await API.post("/orders", {
-      customerName: form.customerName,
-      customerEmail: form.customerEmail,
-      phone: form.phone,
-      address: form.address,
+    const token = localStorage.getItem("token");
 
-      items: cart.map((item) => ({
-        productId: item._id || item.id,
-        productName: item.name,
-        quantity: item.quantity,
-        price: item.price,
-      })),
+if (!token) {
+  toast.error("Please login first");
+  navigate("/login");
+  return;
+}
 
-      totalAmount: total,
-      status: "Pending",
-    });
+await API.post(
+  "/orders",
+  {
+    customerName: form.customerName,
+    customerEmail: form.customerEmail,
+    phone: form.phone,
+    address: form.address,
+
+    items: cart.map((item) => ({
+      productId: item._id || item.id,
+      productName: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    })),
+
+    totalAmount: total,
+    status: "Pending",
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
     localStorage.removeItem("cart");
     window.dispatchEvent(new Event("cartUpdated"));
 
-    alert("Order placed successfully");
+    toast.success("Order placed successfully");
     navigate("/order-history");
   } catch (error) {
     console.log(error.response?.data || error);
-    alert(error.response?.data?.message || "Order failed");
+    toast.error(error.response?.data?.message || "Order failed");
   }
 };
 

@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../api/axios";
+import toast from "react-hot-toast";
 
 
 function Home() {
@@ -38,7 +39,7 @@ useEffect(() => {
 }, [location]);
  const handleAddToCart = (product) => {
   if (product.stock <= 0) {
-    alert("This product is out of stock");
+    toast.success("This product is out of stock");
     return;
   }
 
@@ -49,7 +50,7 @@ useEffect(() => {
 
   if (existing) {
     if (existing.quantity >= product.stock) {
-      alert(`Only ${product.stock} items available in stock`);
+      toast.error(`Only ${product.stock} items available in stock`);
       return;
     }
 
@@ -64,8 +65,7 @@ useEffect(() => {
 
   localStorage.setItem("cart", JSON.stringify(updatedCart));
   window.dispatchEvent(new Event("cartUpdated"));
-
-  alert(`${product.name} added to cart`);
+toast.success(`${product.name} added to cart`);
 };
 
 const scrollShop = () => {

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -19,18 +20,18 @@ function Users() {
       setUsers(res.data);
     } catch (error) {
       console.log(error);
-      alert("Users load failed");
+      toast.success("Users load failed");
     }
   };
 
   const deleteUser = async (id) => {
     try {
       await API.delete(`/users/${id}`);
-      alert("User deleted");
+      toast.success("User deleted");
       getUsers();
     } catch (error) {
       console.log(error);
-      alert("Delete failed");
+      toast.success("Delete failed");
     }
   };
 
@@ -56,12 +57,12 @@ function Users() {
 
     try {
       await API.put(`/users/${editUser._id}`, formData);
-      alert("User updated successfully");
+      toast.success("User updated successfully");
       setEditUser(null);
       getUsers();
     } catch (error) {
       console.log(error);
-      alert("Update failed");
+      toast.success("Update failed");
     }
   };
 

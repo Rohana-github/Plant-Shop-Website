@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../api/axios";
+import toast from "react-hot-toast";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -17,13 +18,13 @@ const AdminLogin = () => {
         password,
       });
 
-      alert(res.data.message || "Login successful");
+      toast.success(res.data.message || "Login successful");
 
       localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
 
       navigate("/admin/dashboard");
     } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
+      toast.success(error.response?.data?.message || "Login failed");
     }
   };
 
