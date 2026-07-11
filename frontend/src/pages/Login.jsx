@@ -115,15 +115,15 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("token", res.data.token);
 
-      alert("Google login successful");
+      toast.success("Google login successful");
       navigate("/");
     } catch (error) {
       console.log(error.response?.data || error);
-      alert(error.response?.data?.message || "Google login failed");
+      toast.success(error.response?.data?.message || "Google login failed");
     }
   }}
   onError={() => {
-    alert("Google Login Failed");
+    toast.success("Google Login Failed");
   }}
 />
         </div>
