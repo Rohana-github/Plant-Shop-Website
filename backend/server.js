@@ -24,7 +24,7 @@ connectDB();
 
 // Test Route
 app.get("/", (req, res) => {
-  res.send("Backend is running");
+  res.send("Plantify API is running");
 });
 
 // Routes

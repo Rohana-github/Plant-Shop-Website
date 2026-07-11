@@ -62,7 +62,7 @@ const handleAddToCart = (product) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product) => (
             <div key={product._id}>
-              <div className="h-[305px]bg-[#e8e8e8] overflow-hidden">
+              <div className="h-[305px]  bg-[#e8e8e8] overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
